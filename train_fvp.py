@@ -209,7 +209,7 @@ def evaluate_test_set(test, y_test, predictions, territory):
     return eval_metrics_df
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
 
-def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train):
+def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, territory):
 
     # Get permutation feature importance for test set
     test_perm = PermutationImportance(clf).fit(X_test, y_test)
@@ -237,4 +237,8 @@ def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train):
     feature_importance_output_df = pd.merge(feature_importance_output_df, test_imp_df, on = 'feature')
     feature_importance_output_df = feature_importance_output_df.rename({'importance_x':'train_perm_importance', 'importance_y': 'test_perm_importance'}, axis=1)
 
-    return feature_importance_output_df
+    model_features_output = model_features.merge(feature_importance_output_df, left_on = 'features', right_on = 'feature')
+    model_features_output = model_features_output.drop('feature', axis=1)
+    model_features_output['territory'] = territory
+
+    return model_features_output
