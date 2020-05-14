@@ -212,7 +212,7 @@ def evaluate_test_set(test, y_test, predictions, territory):
     return eval_metrics_df
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
 
-def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, territory):
+def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, model_features, territory):
 
     print('Running test set permutation feature importance')
     # Get permutation feature importance for test set
