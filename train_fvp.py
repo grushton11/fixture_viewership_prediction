@@ -177,3 +177,34 @@ def GridSearch_table_plot(grid_clf, param_name,
         means = scores_df['mean_test_score']
     stds = scores_df['std_test_score']
     params = scores_df['param_' + param_name]
+
+# -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
+def evaluate_test_set(test, y_test, predictions, territory):
+    # joining test predictions on test game info to see on which fixtures we make mistakes
+    predictions_df = test.join(predictions)
+    predictions_df['Actual'] = predictions_df['P_views']
+    predictions_df['xgb_error'] = predictions_df['Predictions'] - predictions_df['P_views']
+    predictions_df['xgb_abs_error'] = abs(predictions_df['Predictions'] - predictions_df['P_views'])
+
+    eval_metric_r2_score = r2_score(y_test, predictions)
+    eval_metric_evs = explained_variance_score(y_test, predictions)
+    eval_metric_mse = mean_squared_error(y_test, predictions)
+    eval_metric_mean_abs_error = mean_absolute_error(y_test, predictions)
+    eval_metric_median_abs_error = mean_absolute_error(y_test, predictions)
+    eval_metric_mape = 100 * np.mean(abs(predictions - y_test) / y_test)
+    eval_metric_accuracy = 100 - eval_metric_mape
+
+    datenow = datetime.datetime.now()
+    eval_metrics_df = pd.DataFrame([[datenow,
+                                     eval_metric_r2_score,
+                                     eval_metric_evs,
+                                     eval_metric_mse,
+                                     eval_metric_mean_abs_error,
+                                     eval_metric_median_abs_error,
+                                     eval_metric_mape,
+                                     eval_metric_accuracy]],
+                                   columns=['Evaluation_Date','R2_Score','EVS_Score','MSE_Score','Mean_Abs_Error','Median_Abs_Error','MAPE','Accuracy'])
+    eval_metrics_df['territory'] = territory
+
+    return eval_metrics_df
+# -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
