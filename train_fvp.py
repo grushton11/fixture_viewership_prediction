@@ -21,7 +21,6 @@ import eli5
 from eli5 import show_weights
 from eli5.sklearn import PermutationImportance
 from sklearn.feature_extraction import DictVectorizer
-from matplotlib      import pyplot as plt
 from IPython.display import display
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
@@ -55,7 +54,8 @@ def dummify_teams(df, min_appearances):
     teams_output = pd.DataFrame(teams_list)
     teams_output.columns = ['Teams']
     print('teams included: ')
-    print(teams_list)
+    for i in teams_list:
+        print(i)
 
     return out
 
