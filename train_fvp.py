@@ -214,6 +214,7 @@ def evaluate_test_set(test, y_test, predictions, territory):
 
 def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, territory):
 
+    print('Running test set permutation feature importance')
     # Get permutation feature importance for test set
     test_perm = PermutationImportance(clf).fit(X_test, y_test)
 
@@ -223,6 +224,7 @@ def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, territory
     test_imp_df.sort_values(by='importance', ascending=False, inplace=True)
     test_imp_df['importance'] = test_imp_df['importance'].apply(lambda x: "{:.1%}".format(x))
 
+    print('Running train set permutation feature importance')
     # Get permutation feature importance for train set
     train_perm = PermutationImportance(clf).fit(X_train, y_train)
 
@@ -231,6 +233,12 @@ def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, territory
     train_imp_df = pd.DataFrame({'importance': importances, 'feature': names})
     train_imp_df.sort_values(by='importance', ascending=False, inplace=True)
     train_imp_df['importance'] = train_imp_df['importance'].apply(lambda x: "{:.1%}".format(x))
+
+    # tracking importance of factors
+    importance = pd.DataFrame(clf.feature_importances_,
+                                   index = X_train.columns,
+                                    columns=['Feature Importance']).sort_values('Feature Importance', ascending=False)
+    importance['Feature Importance'] = importance['Feature Importance'].apply(lambda x: "{:.1%}".format(x))
 
     # Creae output table of the train and test feature importance
     reindex_importance_df = importance.reset_index().rename({'index':'feature',
