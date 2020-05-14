@@ -53,7 +53,7 @@ def dummify_teams(df, min_appearances):
     del teams_list[0]
     teams_output = pd.DataFrame(teams_list)
     teams_output.columns = ['Teams']
-    print('{} teams included: '.format(teams_list.length()))
+    print('{} teams included: '.format(teams_list.len()))
     for i in teams_list:
         print(i)
 
