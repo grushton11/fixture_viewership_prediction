@@ -25,7 +25,7 @@ from matplotlib      import pyplot as plt
 from IPython.display import display
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
-def dummify_teams(df):
+def dummify_teams(df, min_appearances):
 
     # Create a data frame containing a list of home and away teams
     home = pd.DataFrame(list(df.str_home_contestant_name_concat), columns=['team'], index=list(df.home_away_date_concat))
@@ -42,7 +42,7 @@ def dummify_teams(df):
 
     # filter teams to >10 appearances
     for i in encoded_teams.columns[1:]:
-        if sum(encoded_teams[i]) < 10:
+        if sum(encoded_teams[i]) < min_appearances:
             encoded_teams.drop(i, axis=1, inplace=True)
     encoded_teams.reset_index(inplace=True)
 
@@ -54,6 +54,8 @@ def dummify_teams(df):
     del teams_list[0]
     teams_output = pd.DataFrame(teams_list)
     teams_output.columns = ['Teams']
+    print('teams included: ')
+    print(teams_list)
 
     return out
 
@@ -112,6 +114,7 @@ def create_train_test_splits(df):
     # Apply AVG-STD re-scaling to numerical features
     rescale_features = {u'smaller_team_prop-fan_base': u'AVGSTD',u'larger_team_prop-fan_base': u'AVGSTD'}
     pd.options.mode.chained_assignment = None
+
 
     for (feature_name, rescale_method) in rescale_features.items():
         if rescale_method == 'AVGSTD':
