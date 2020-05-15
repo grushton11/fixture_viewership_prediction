@@ -261,7 +261,6 @@ def create_fvp_predictions(cust_territory, mfl_fixtures_df, features_df):
     mfl_teams = get_mfl_teams(cust_territory, mfl_fixtures_df)
 
     # Return trained teams df
-    trained_features_df = trained_features_dataframe_dict.get(cust_territory)
     trained_teams_df, trained_teams_list = get_trained_teams(cust_territory, features_df)
 
     # Return a df of fixtures with team features encoded
