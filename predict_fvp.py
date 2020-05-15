@@ -139,6 +139,7 @@ def prepare_for_scoring(df_final_merged):
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
 def load_models(territory_filename, folder):
+    print(territory_filename)
     model_folder = dataiku.Folder(folder)
     folder_info = model_folder.get_info()
     path = model_folder.get_path()
@@ -290,6 +291,7 @@ def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, 
     df_for_scoring, game_info = prepare_for_scoring(df_final_merged)
 
     # Unpickle the models
+    print(territory_filename)
     xgb_model = load_models(territory_filename, model_folder)
 
     # Score the data against each saved model - note the same ordering of the features in the training data is required
