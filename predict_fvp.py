@@ -295,7 +295,7 @@ def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, 
     xgb_model = load_models(territory_filename, model_folder)
 
     # Score the data against each saved model - note the same ordering of the features in the training data is required
-    predictions = score_models(cust_territory, df_for_scoring[dach_trained_features_df['features'].values], xgb_model)
+    predictions = score_models(cust_territory, df_for_scoring[features_df['features'].values], xgb_model)
 
     # Join predictions to the game info
     scored_fixtures_df = game_info.join(predictions)
