@@ -270,10 +270,10 @@ def create_fvp_predictions(cust_territory, mfl_fixtures_df, features_df):
                                                                   mfl_fixtures_df)
 
      # Return a df of the categorical features trained on
-    categoricals, trained_dummy_features_df = get_other_trained_features(cust_territory, trained_features_df)
+    categoricals, trained_dummy_features_df = get_other_trained_features(cust_territory, features_df)
 
     # Return dfs and lists of the categorical features trained on
-    trained_feature_dfs_dictionary, trained_feature_lists_dictionary = get_trained_feature_lists(cust_territory, categoricals, trained_features_df)
+    trained_feature_dfs_dictionary, trained_feature_lists_dictionary = get_trained_feature_lists(cust_territory, categoricals, features_df)
 
     # Return dfs of the categorical feature values found in the MFL
     mfl_feature_dfs_dictionary = get_mfl_feature_values(value, categoricals)
