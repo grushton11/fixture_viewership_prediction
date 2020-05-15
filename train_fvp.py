@@ -209,7 +209,7 @@ def evaluate_test_set(test, y_test, predictions, territory):
                                    columns=['Evaluation_Date','R2_Score','EVS_Score','MSE_Score','Mean_Abs_Error','Median_Abs_Error','MAPE','Accuracy'])
     eval_metrics_df['territory'] = territory
 
-    return eval_metrics_df
+    return eval_metrics_df, predictions_df
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
 
 def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, model_features, territory):
