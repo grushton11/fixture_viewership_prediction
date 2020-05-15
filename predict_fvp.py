@@ -252,7 +252,7 @@ def get_broadcast_tier(territory, df):
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: MARKDOWN
 
-def create_fvp_predictions(cust_territory, mfl_fixtures_df, features_df, model_folder):
+def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, features_df, model_folder):
 
     predictions_df = pd.DataFrame([])
     predictions_list = []
