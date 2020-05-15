@@ -252,7 +252,7 @@ def get_broadcast_tier(territory, df):
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: MARKDOWN
 
-def create_fvp_predictions(cust_territory, mfl_fixtures_df, features_df):
+def create_fvp_predictions(cust_territory, mfl_fixtures_df, features_df, model_folder):
 
     predictions_df = pd.DataFrame([])
     predictions_list = []
@@ -290,7 +290,7 @@ def create_fvp_predictions(cust_territory, mfl_fixtures_df, features_df):
     df_for_scoring, game_info = prepare_for_scoring(df_final_merged)
 
     # Unpickle the models
-    xgb_model = load_models()
+    xgb_model = load_models(cust_territory, model_folder)
 
     # Score the data against each saved model - note the same ordering of the features in the training data is required
     predictions = score_models(cust_territory, df_for_scoring[dach_trained_features_df['features'].values], xgb_model)
