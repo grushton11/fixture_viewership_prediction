@@ -259,7 +259,7 @@ def create_events_train_test_splits(df):
     # fill empty values
     df = df.fillna(0)
 
-    game_info = ['n_users','str_tournament_calendar_name',
+    game_info = ['n_users','n_users_8week_lag','str_tournament_calendar_name',
                     'fixture_views_sum','str_fixture_id', 'str_fixture_date',
                      'cust_territory', 'P_views']
 
