@@ -253,3 +253,63 @@ def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, model_fea
     model_features_output['territory'] = territory
 
     return model_features_output
+
+def create_events_train_test_splits(df):
+
+    # fill empty values
+    df = df.fillna(0)
+
+    game_info = ['n_users','str_tournament_calendar_name',
+                    'fixture_views_sum','str_fixture_id', 'str_fixture_date',
+                     'cust_territory', 'P_views']
+
+    game_info_variables = df[game_info]
+
+    categorical_variables = [u'str_competition_name', u'str_sport_name',
+                             u'weekday', u'month',u'time_of_day',
+                             ]
+
+    numerical_variables = [u'str_live_max', u'str_catch_up_max', u'dazn_only',
+                           u'prop_user_base_pref_sport',
+                          'is_cycling_uci_event',
+                          'is_motorsport_race', 'is_motorsport_qualification','is_motorsport_race_delayed',
+                          'is_motorsport_practice', 'is_motorsport_f1_event', 'is_motorsport_fia_event',
+                          'is_motorsport_rally_event', 'is_motorsport_motogp_event', 'is_motorsport_bike_event',
+                          'is_motorsport_virtual_event', 'is_darts_german_commentary',
+                          'is_darts_main_event', 'is_darts_pdc_event', 'is_darts_masters_event', 'is_darts_league_event',
+                          'is_tennis_main_event', 'is_tennis_mens_event',
+                          'is_ufc_main_event', 'is_ufc_fight_night', 'is_bellator_main_event','is_popular_event']
+
+    non_competitor_var_size  = game_info_variables.columns.size + len(categorical_variables) + len(numerical_variables) + 1
+
+    all_columns = categorical_variables.copy()
+    all_columns.extend(numerical_variables)
+
+    df = df[all_columns]
+
+    df_dummies = pd.get_dummies(df, columns=categorical_variables)
+    df = game_info_variables.join(df_dummies)
+
+    # Create dataframe containing all features
+    model_features = pd.DataFrame(np.array(list(df_dummies)))
+    model_features.columns = ['features']
+
+    for i in categorical_variables:
+        model_features.loc[model_features['features'].str.contains(i), 'feature_type'] = i
+
+    for i in numerical_variables:
+        model_features.loc[model_features['features'].str.contains(i), 'feature_type'] = 'numericals'
+        df[i] = df[i].astype('double')
+
+    # Create train/test splits
+    train, test = train_test_split(df, test_size=0.2)
+    print ('Train data has %i rows and %i columns' % (train.shape[0], train.shape[1]))
+    print ('Test data has %i rows and %i columns' % (test.shape[0], test.shape[1]))
+
+    # Split out the target and predictor variables
+    X_train = train.drop(game_info, axis=1)
+    y_train = train['P_views']
+    X_test = test.drop(game_info, axis=1)
+    y_test = test['P_views']
+
+    return train, test, X_train, y_train, X_test, y_test, model_features
