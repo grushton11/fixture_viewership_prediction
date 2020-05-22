@@ -269,7 +269,7 @@ def create_events_train_test_splits(df):
                              u'weekday', u'month',u'time_of_day',
                              ]
 
-    numerical_variables = [u'str_live_max', u'str_catch_up_max', u'dazn_only',
+    numerical_variables = [u'dazn_only',
                            u'prop_user_base_pref_sport',
                           'is_cycling_uci_event',
                           'is_motorsport_race', 'is_motorsport_qualification','is_motorsport_race_delayed',
