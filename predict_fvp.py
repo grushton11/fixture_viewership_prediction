@@ -253,7 +253,7 @@ def get_broadcast_tier(territory, df):
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: MARKDOWN
 
-def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, features_df, model_folder):
+def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, features_df, model_folder, current_prediction_calculation_date):
 
     predictions_df = pd.DataFrame([])
     predictions_list = []
@@ -301,6 +301,6 @@ def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, 
     scored_fixtures_df = game_info.join(predictions)
 
     # Post processing ready for output
-    scored_fixtures_df = post_processing(cust_territory, scored_fixtures_df)
+    scored_fixtures_df = post_processing(cust_territory, scored_fixtures_df, current_prediction_calculation_date)
 
     return scored_fixtures_df
