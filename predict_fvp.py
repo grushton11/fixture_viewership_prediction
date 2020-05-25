@@ -155,11 +155,11 @@ def score_models(territory, df, xgb_model):
     return predictions
 
 # -------------------------------------------------------------------------------- NOTEBOOK-CELL: CODE
-def post_processing(territory, df):
+def post_processing(territory, df, prediction_calculation_date):
 
     df['dazn_only'] = df['str_tournament_calendar_name'].str.contains('DAZN', na = False)
     now = datetime.datetime.now()
-    df['date_prediction_created'] = now.date()
+    df['date_prediction_created'] = prediction_calculation_date
     df['model_version'] = "v2.0"
     df['viewership_prediction'] = round(df['predictions'] * df['n_users_8week_lag'])
     df['recommended_broadcast_tier'] = df.apply(lambda df: get_broadcast_tier(territory,df), axis=1)
