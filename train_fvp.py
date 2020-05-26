@@ -254,6 +254,28 @@ def get_perm_feature_importance(clf, X_test, y_test, X_train, y_train, model_fea
 
     return model_features_output
 
+def get_basic_feature_importance(clf, X_test, y_test, X_train, y_train, model_features, territory):
+
+    # tracking importance of factors
+    importance = pd.DataFrame(clf.feature_importances_,
+                                   index = X_train.columns,
+                                    columns=['Feature Importance']).sort_values('Feature Importance', ascending=False)
+    importance['Feature Importance'] = importance['Feature Importance'].apply(lambda x: "{:.1%}".format(x))
+
+    # Creae output table of the train and test feature importance
+    reindex_importance_df = importance.reset_index().rename({'index':'feature',
+                                     'Feature Importance':'basic_feature_importance'}, axis=1)
+
+    feature_importance_output_df = reindex_importance_df.copy()
+    feature_importance_output_df = feature_importance_output_df.rename({'importance_x':'train_perm_importance', 'importance_y': 'test_perm_importance'}, axis=1)
+
+    model_features_output = model_features.merge(feature_importance_output_df, left_on = 'features', right_on = 'feature')
+    model_features_output = model_features_output.drop('feature', axis=1)
+    model_features_output['territory'] = territory
+
+    return model_features_output
+
+
 def create_events_train_test_splits(df):
 
     # fill empty values
