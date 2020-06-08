@@ -270,6 +270,13 @@ def create_fvp_predictions(cust_territory, territory_filename, mfl_fixtures_df, 
                                                                   trained_teams_list,
                                                                   mfl_fixtures_df)
 
+    # Check if there are any fixtures we can predict upon, else exit
+    if fixtures_with_encoded_teams.size >= 1:
+        print('There is atleast 1 fixture we can predit upon (after encoding and filtering out less than <10 teams): CONTINUE')
+    else:
+        print('No encoded fixtures to predict on: EXIT')
+        sys.exit(0)
+
      # Return a df of the categorical features trained on
     categoricals, trained_dummy_features_df = get_other_trained_features(cust_territory, features_df)
 
