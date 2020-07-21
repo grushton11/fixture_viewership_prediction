@@ -138,7 +138,7 @@ def prepare_for_scoring(df_final_merged):
                          'home_contestant_concat','fixture_id', 'date','fixture_month','cust_territory','weekday',
                          'month', 'time_of_day', 'str_sport_name', 'str_competition_name', 'away_contestant',
                          'home_contestant', 'str_stage_name','str_ruleset_name', 'home_contestant_pref_calc_date',
-                         'away_contestant_pref_calc_date']
+                         'away_contestant_pref_calc_date', 'mfl_record_last_updated']
 
 
     game_info = df_final_merged[game_info_columns]
