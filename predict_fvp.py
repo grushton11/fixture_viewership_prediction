@@ -54,7 +54,19 @@ def get_fixtures_with_encoded_teams(mfl_teams, trained_teams_df, trained_teams_l
     encoded_teams_concat_filtered_dedupe = pd.DataFrame(encoded_teams_concat_filtered.groupby(['home_away_date_concat']).sum())
     encoded_teams_concat_filtered_dedupe.reset_index(inplace=True)
 
-    fixtures_with_encoded_teams = pd.merge(encoded_teams_concat_filtered_dedupe,df, how='left', on='home_away_date_concat')
+    fixtures_without_trained_teams = team_list_concatenated[(team_list_concatenated['Teams'].isin(trained_teams_list) == False)]
+
+    fixtures_no_trained_teams = fixtures_without_trained_teams.reindex(columns = encoded_teams_concat.columns)
+    fixtures_no_trained_teams = fixtures_no_trained_teams.fillna(0)
+    fixtures_no_trained_teams = fixtures_no_trained_teams.drop(columns='home_away_date_concat')
+    fixtures_no_trained_teams = fixtures_no_trained_teams.rename_axis('home_away_date_concat').reset_index()
+    fixtures_no_trained_teams.drop_duplicates(inplace=True)
+
+    encoded_teams_stacked = pd.concat([encoded_teams_concat_filtered_dedupe, fixtures_no_trained_teams])
+    encoded_teams_stacked.drop_duplicates(inplace=True)
+    encoded_teams_stacked_dedupe = pd.DataFrame(encoded_teams_stacked.groupby(['home_away_date_concat']).sum())
+    encoded_teams_stacked_dedupe.reset_index(inplace=True)
+    fixtures_with_encoded_teams = pd.merge(encoded_teams_stacked_dedupe,df, how='left', on='home_away_date_concat')
 
     return fixtures_with_encoded_teams
 
